@@ -1,7 +1,7 @@
 /**
  * Using typescript for highlighting and auto-completion
  * Main function entry:
- * repeat (TO_FACTORIZE) {
+ * repeat(TO_FACTORIZE) {
  *    putBeeper();
  * }
  * 
@@ -9,151 +9,211 @@
  */
 
 function main() {
-    divide2();
+    
 }
 
-function copyThisCellToUpTwoCell() {
-    while (beepersPresent()) {
-        turnLeft();
-        move();
-        putBeeper();
-        move();
-        putBeeper();
-        turnLeft();
-        turnLeft();
-        move();
-        move();
-        pickBeeper();
-    }
-}
-
-function moveThisCellToDownCell() {
-    while (beepersPresent()) {
-        turnLeft();
-        move();
-        putBeeper();
-        turnLeft();
-        turnLeft();
-        move();
-        pickBeeper();
-        turnLeft();
-    }
-}
-
-function moveThisCellToStart() {
-    while (beepersPresent()) {
-        goBack();
-        putBeeper();
-        goUntilNoBeeper();
-        goBackOnce();
-        pickBeeper();
-    }
-}
-
-function divide2() {
-    goUntilNoBeeper();
+function init() {
+    goStraight();
     putBeeper();
-    goBack();
+    goHome();
+}
+
+function divideWith2() {
     pickBeeper();
+    pickBeeperChecked();
+
+    while (beepersPresent()) { // if beeper is present at home
+        goNextPrimeFactor();
+        putBeeper();
+        goEndEnd();
+    }
+
+    goHome();
 
     while (beepersPresent()) {
-        goUntilNoBeeper();
-        goBackOnce();
-        putBeeper();
-        goBack();
         pickBeeper();
-        
-        checkIsOneBeeper();
-        
-        move();
-        turnLeft();
-        move();
-        turnRight();
-        
+        pickBeeperChecked();
+        goPickBeeperCheckedFlag();
         while (beepersPresent()) {
             pickBeeper();
-            goStart();
-            turnLeft();
-            clearLine();
-            turnRight();
-            goStart();
-
-            goUntilNoBeeper();
-            goBackOnce();
-            moveThisCellToStart();
+            goHome();
+            goCouldNotBeDivided();
             putBeeper();
-            putBeeper();
-
-            goStart();
-            move();
-            turnLeft();
-            move();
-            move();
-            putBeeper();
-            turnRight();
-            move();
+            goEndEnd();
         }
-    }
 
-    goStart();
-}
+        goHome();
 
-function checkIsOneBeeper() {
-    pickBeeper();
-    while (beepersPresent()) {
-        move();
-        turnLeft();
-        move();
+        goCurrentPrimeFactor();
         putBeeper();
-        turnRight();
-        move();
-    }
-
-    goStart();
-}
-
-function goUntilNoBeeper() {
-    while (beepersPresent()) {
-        move();
+        goHome();
     }
 }
 
-function goBackOnce() {
+
+/**
+ * go to (0, 0) whereever you are facing east
+ */
+function goHome() {
+    turnAround();
+    goStraight();
     turnLeft();
-    turnLeft();
-    move();
-    turnLeft();
+    goStraight();
     turnLeft();
 }
 
-function goBack() {
-    turnLeft();
-    turnLeft();
-    while (frontIsClear()) {
-        move();
-    }
-    turnLeft();
-    turnLeft();
-}
+/**
+ * go to (End, End) whereever you are facing east
+ */
 
-function goStart() {
-    goBack();
+function goEndEnd() {
+    goStraight();
     turnLeft();
-    goBack();
+    goStraight();
     turnRight();
 }
 
-function clearLine() {
-    putAllBeepers();
+/**
+ * go to (0, End) whereever you are facing east
+ */
+function goZeroEnd() {
+    turnLeft();
+    goStraight();
+    turnLeft();
+    goStraight();
+    turnAround();
+}
 
-    while (frontIsClear()) {
+/**
+ * go to next prime factor (n, 0) when karel on (0, 0) and facing east
+ */
+function goNextPrimeFactor() {
+    move();
+    while (beepersPresent()) {
         move();
-        putAllBeepers();
     }
 }
 
-function putAllBeepers() {
+/**
+ * go to current prime factor (n, 0) when karel on (n, 0) and facing east
+ */
+function goCurrentPrimeFactor() {
+    goNextPrimeFactor();
+    turnAround();
+    move();
+    turnAround();
+}
+
+/**
+ * copy (0, 0) to (0, 1~n) when karel on (0, 0) and facing east
+ */
+function copyToLeftColumn() {
+    turnLeft();
+
     while (beepersPresent()) {
+        pickBeeper();
+        move();
+        placeBeepers();
+        turnAround();
+        goStraight();
+        turnAround();
+    }
+
+    goStraight();
+    turnAround();
+
+    while (beepersPresent()) {
+        pickBeeper();
+        goStraight();
+        putBeeper();
+        turnAround();
+        goStraight();
+        turnAround();
+    }
+
+    turnRight();
+}
+
+/**
+ * place beepers on (x, 1~n) when karel on (x, 1) and facing north 
+ */
+function placeBeepers() {
+    putBeeper();
+    while (frontIsClear()) {
+        move();
         putBeeper();
     }
+}
+
+/**
+ * turn around (180 degree)
+ */
+function turnAround() {
+    turnLeft();
+    turnLeft();
+}
+
+/**
+ * go until front is not clear
+ */
+function goStraight() {
+    while (frontIsClear()) {
+        move();
+    }
+}
+
+/**
+ * go to (1, 1), alias of couldBeDivided
+ * when karel on (0, 0) and facing east
+ */
+function goCouldBeDivided() {
+    move();
+    turnLeft();
+    move();
+    turnRight();
+}
+
+/**
+ * go to (1, 2), alias of couldNotBeDivided
+ * when karel on (0, 0) and facing east
+ */
+function goCouldNotBeDivided() {
+    move();
+    turnLeft();
+    move();
+    move();
+    turnRight();
+}
+
+/**
+ * go to (2, 1), alias of pickBeeperCheckedFlag
+ * when karel on (0, 0) and facing east
+ */
+function goPickBeeperCheckedFlag() {
+    move();
+    move();
+    turnLeft();
+    move();
+    turnRight();
+}
+
+/**
+ * checked version of pickBeeper
+ * when karel facing east
+ * @returns {boolean} at (2, 1) true if failed, false if success
+ */
+function pickBeeperChecked() {
+    goHome();
+    goPickBeeperCheckedFlag();
+    putBeeper();
+    goHome();
+
+    while (beepersPresent()) {
+        pickBeeper();
+        goPickBeeperCheckedFlag();
+        pickBeeper();
+        goEndEnd();
+    }
+
+    goHome();
 }

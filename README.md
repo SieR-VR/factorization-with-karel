@@ -11,9 +11,12 @@ Inputs and Outputs
 
 Flags and data for compute
 - (1, 1) -> If (0, 0) can be divided with current factor
+- (1, 2) -> If (0, 0) cannot be divided with current factor
+- (2, 1) -> Return value of pickBeeperChecked, when the function is called, it will be true and when beepers are picked, it will be false
 
 Constants
 - (End, End) -> Must be zero, will be used for [#using-while-clause-as-a-if-clause]
+- (End, 0) -> Must be one, will be used for [#using-while-clause-as-a-if-clause]
 
 ## Using while clause as a if clause
 
@@ -45,6 +48,7 @@ To achive this, when the while clause end, karel must be on (End, End).
 ## Code convention
 
 All functions must keep rotation of karel.
+The functions called by main function must keep position of karel.
 
 ## Limitation
 
