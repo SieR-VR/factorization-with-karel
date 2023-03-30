@@ -17,13 +17,13 @@ Constants
 
 ## Using while clause as a if clause
 
-At some reasons, I can't use if clause. But while is allowed, so I thonk about "the condition must be false when the while clause end.".
+At some reasons, I can't use if clause. But while is allowed, so I thought about "the condition must be false when the while clause end.".
 
 To achive this, when the while clause end, karel must be on (End, End).
 
 ## Algorithm
 
-- Put beepers at count to factorize (This will be input)
+- Put beepers count to factorize (This will be input)
 - Divide with Pn
     - If number is not divided, progress to Divide with Pn+1
     - Else
