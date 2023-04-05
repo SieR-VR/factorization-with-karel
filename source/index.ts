@@ -76,7 +76,9 @@ function divideWith2() {
         goEndZero();
     }
 
+    goHome();
     goCouldNotBeDivided();
+
     while (beepersPresent()) {
         goHome();
 
