@@ -7,9 +7,15 @@
  * 
  * Typescript does not have a repeat clause, so we leave it as a comment
  */
-
 function main() {
-    
+    init();
+
+    goCouldNotBeDivided();    
+    while (noBeepersPresent()) {
+        goHome();
+        divideWith2();
+        goCouldNotBeDivided();
+    }
 }
 
 function init() {
@@ -22,11 +28,18 @@ function divideWith2() {
     pickBeeper();
     pickBeeperChecked();
 
-    while (beepersPresent()) { // if beeper is present at home
-        goNextPrimeFactor();
+    goPickBeeperCheckedFlag();
+    while (beepersPresent()) {
+        pickBeeper();
+        goHome();
+        goCouldNotBeDivided();
         putBeeper();
         goEndEnd();
     }
+    goHome();
+
+    goNextPrimeFactor();
+    putBeeper();
 
     goHome();
 
@@ -48,8 +61,33 @@ function divideWith2() {
         putBeeper();
         goHome();
     }
-}
 
+    goCouldNotBeDivided();
+    while (noBeepersPresent()) {
+        goHome();
+
+        clearLeftColumn();
+        moveCurrentPrimeFactorToHome();
+
+        goNextPrimeFactor();
+        putBeeper();
+        putBeeper();
+
+        goEndZero();
+    }
+
+    goCouldNotBeDivided();
+    while (beepersPresent()) {
+        goHome();
+
+        goCurrentPrimeFactor();
+        clearBeepers();
+
+        goEndEnd();
+    }
+
+    goHome();
+}
 
 /**
  * go to (0, 0) whereever you are facing east
@@ -65,7 +103,6 @@ function goHome() {
 /**
  * go to (End, End) whereever you are facing east
  */
-
 function goEndEnd() {
     goStraight();
     turnLeft();
@@ -74,14 +111,13 @@ function goEndEnd() {
 }
 
 /**
- * go to (0, End) whereever you are facing east
+ * go to (End, 0) whereever you are facing east
  */
-function goZeroEnd() {
-    turnLeft();
+function goEndZero() {
+    goStraight();
+    turnRight();
     goStraight();
     turnLeft();
-    goStraight();
-    turnAround();
 }
 
 /**
@@ -102,6 +138,22 @@ function goCurrentPrimeFactor() {
     turnAround();
     move();
     turnAround();
+}
+
+/**
+ * move current prime factor to (0, 0) when karel on (0, 0) and facing east
+ */
+function moveCurrentPrimeFactorToHome() {
+    goCurrentPrimeFactor();
+
+    while (beepersPresent()) {
+        goHome();
+        putBeeper();
+        goCurrentPrimeFactor();
+        pickBeeper();
+    }
+
+    goHome();
 }
 
 /**
@@ -135,6 +187,21 @@ function copyToLeftColumn() {
 }
 
 /**
+ * clear (0, 0) to (0, n) when karel on (0, 0) and facing east
+ */
+function clearLeftColumn() {
+    turnLeft();
+    clearBeepers();
+    while (frontIsClear()) {
+        move();
+        clearBeepers();
+    }
+
+    turnRight();
+    goHome();
+}
+
+/**
  * place beepers on (x, 1~n) when karel on (x, 1) and facing north 
  */
 function placeBeepers() {
@@ -142,6 +209,12 @@ function placeBeepers() {
     while (frontIsClear()) {
         move();
         putBeeper();
+    }
+}
+
+function clearBeepers() {
+    while (beepersPresent()) {
+        pickBeeper();
     }
 }
 
