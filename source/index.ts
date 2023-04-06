@@ -214,6 +214,9 @@ function placeBeepers() {
     }
 }
 
+/**
+ * clear beepers on current cell
+ */
 function clearBeepers() {
     while (beepersPresent()) {
         pickBeeper();
